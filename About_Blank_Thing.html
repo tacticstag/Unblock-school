@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I love school blockers</title>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="file" id="input" accept=".html" style="display:none">
+    <button id="slec">select html</button>
+    <button id="woahtabbutan" disabled>open tab</button>
+	<a>If the tab will not open and you get a popup block, click on the popup block and select 'always allow popups', then reload this page and try again.</a>
+
+    <script>
+        let fileContent = null;
+
+        document.getElementById('slec').addEventListener('click', () => {
+            document.getElementById('input').click();
+        });
+
+        document.getElementById('input').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    fileContent = e.target.result;
+                    document.getElementById('woahtabbutan').disabled = false;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        document.getElementById('woahtabbutan').addEventListener('click', () => {
+            if (fileContent) {
+                setTimeout(() => {
+                    const newTab = window.open('about:blank', '_blank');
+                    if (newTab) {
+                        newTab.document.open();
+                        newTab.document.write(fileContent);
+                        newTab.document.close();
+                    }
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
